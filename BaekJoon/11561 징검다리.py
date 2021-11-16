@@ -12,6 +12,7 @@
 #     if i+1 == num or num == 1:
 #         print(1)
 
+
 import math
 
 n = int(input())
