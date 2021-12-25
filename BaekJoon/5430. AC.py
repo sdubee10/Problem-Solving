@@ -1,38 +1,33 @@
 import sys
 from collections import deque
 
-input = sys.stdin.readline
+t = int(input())
 
-n = int(input())
+for i in range(t):
+    p = sys.stdin.readline().rstrip()
+    n = int(input())
+    arr = sys.stdin.readline().rstrip()[1:-1].split(",")
+    queue = deque(arr)
 
-for i in range(n):
-    command = input()
-    num = int(input())
-    nums = input().rstrip()
-    if len(nums) == 2:
-        print("error")
-        continue
-
-    nums = list(nums[1:-1].split(","))
-    queue = deque(nums)
-
-    check = False
     rev = 0
-    for letter in command:
-        if letter == "R":
+    flag = 0
+    if n == 0:
+        queue = []
+
+    for j in p:
+        if j == 'R':
             rev += 1
-        elif letter == "D":
-            if len(queue) > 0:
+        elif j == 'D':
+            if len(queue) < 1:
+                flag = 1
+                print("error")
+                break
+            else:
                 if rev % 2 == 0:
                     queue.popleft()
                 else:
                     queue.pop()
-            else:
-                check = True
-                break
-    if check:
-        print("error")
-    else:
+    if flag == 0:
         if rev % 2 == 0:
             print("[" + ",".join(queue) + "]")
         else:
