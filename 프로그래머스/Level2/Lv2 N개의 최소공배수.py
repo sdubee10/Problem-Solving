@@ -1,4 +1,4 @@
-def gcd(a,b):
+def gcd(a, b):
     if a % b == 0:
         return b
     else:
@@ -7,7 +7,5 @@ def gcd(a,b):
 def solution(arr):
     answer = 1
     for i in range(len(arr)):
-        answer = (arr[i] * answer) // (gcd(arr[i], answer))
+        answer = answer * arr[i] / gcd(answer, arr[i])
     return answer
-print(solution([2,6,8,14]))
-print(solution([1,2,3]))

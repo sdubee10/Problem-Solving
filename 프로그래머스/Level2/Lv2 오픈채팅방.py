@@ -1,30 +1,23 @@
 from collections import defaultdict
 
 def solution(record):
-    n = len(record)
-
     dict = defaultdict()
+    stack = []
+    for part in record:
+        order = part.split()
+        if order[0] == "Enter":
+            stack.append((order[1], 1))
+            dict[order[1]] = order[2]
+        elif order[0] == "Leave":
+            stack.append((order[1], 2))
+        elif order[0] == "Change":
+            dict[order[1]] = order[2]
 
-    result = []
-    for i in range(n):
-        command = record[i].split(" ")
-        if command[0] == "Enter":
-            dict[command[1]] = command[2]
-            result.append((command[1], 1))
-        elif command[0] == "Leave":
-            result.append((command[1], 2))
-        elif command[0] == "Change":
-            dict[command[1]] = command[2]
-
-    print(dict)
-    print(result)
     answer = []
-
-    for id, value in result:
+    for key, value in stack:
         if value == 1:
-            answer.append(dict[id] + "님이 들어왔습니다.")
-        elif value == 2:
-            answer.append(dict[id] + "님이 나갔습니다.")
-    return answer
+            answer.append(dict[key] + "님이 들어왔습니다.")
+        else:
+            answer.append(dict[key] + "님이 나갔습니다.")
 
-print(solution(["Enter uid1234 Muzi", "Enter uid4567 Prodo","Leave uid1234","Enter uid1234 Prodo","Change uid4567 Ryan"]))
+    return answer
