@@ -1,22 +1,19 @@
 from collections import deque
 
+
 def solution(priorities, location):
     answer = 0
-
-    queue = deque()
+    q = deque()
     for idx, value in enumerate(priorities):
-        queue.append((value, idx))
+        q.append((value, idx))
 
-    while len(queue):
-        item = queue.popleft()
+    while len(q):
+        item = q.popleft()
 
-        if queue and max(queue)[0] > item[0]:
-            queue.append(item)
+        if q and max(q)[0] > item[0]:
+            q.append(item)
         else:
             answer += 1
-            if item[1] == location:
+            if location == item[1]:
                 break
     return answer
-
-print(solution([2,1,3,2], 2))
-print(solution([1,1,9,1,1,1], 0))
