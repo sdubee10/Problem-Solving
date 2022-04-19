@@ -1,54 +1,56 @@
 import sys
 import math
 
-def Find(x):
-   if p[x] == x:
-      return x
+def find(a):
+   if a == parent[a]:
+      return a
+   parent[a] = find(parent[a])
+   return parent[a]
+
+def union(a, b):
+   a = find(a)
+   b = find(b)
+
+   if a > b:
+      parent[a] = b
    else:
-      y = Find(p[x])
-      p[x] = y
-      return y
-
-
-def Union(x, y):
-   x = Find(x)
-   y = Find(y)
-   if x != y:
-      p[y] = x
+      parent[b] = a
 
 
 n, m = map(int, sys.stdin.readline().split())
 
-p = [i for i in range(n)]
+parent = [i for i in range(n+1)]
+edges = []
+location = [[]]
 
-
-location = []
 for _ in range(n):
-   x, y = map(int, sys.stdin.readline().split())
-   location.append([x, y])
+   x, y = map(int, input().split())
+   location.append((x, y))
 
 count = 0
 for _ in range(m):
-   god1, god2 = map(int, sys.stdin.readline().split())
-   if Find(god1 - 1) != Find(god2 - 1):
-      Union(god1 - 1, god2 - 1)
+   x, y = map(int, input().split())
+   if find(x) != find(y):
+      union(x, y)
       count += 1
 
-road = []
-for i in range(n - 1):
-   for j in range(i + 1, n):
-      dis = math.sqrt((location[i][0] - location[j][0]) ** 2 + (location[i][1] - location[j][1]) ** 2)
-      road.append([dis, i, j])
+for i in range(1, n):
+   for j in range(i+1, n+1):
+      d = math.sqrt((location[i][0] - location[j][0]) ** 2 + (location[i][1] - location[j][1])**2)
+      edges.append((i, j, d))
 
-road.sort(key=lambda x: x[0])
-
-answer = 0
-for dis, x, y in road:
-   if Find(x) != Find(y):
-      Union(x, y)
-      answer += dis
+# print(edges)
+edges.sort(key = lambda x:x[2])
+# print("$"*10)
+# print(edges)
+ans = 0
+for edge in edges:
+   x, y, d = edge
+   if find(x) != find(y):
+      union(x, y)
+      ans += d
       count += 1
-   if count == n - 1:
+   if count == n-1:
       break
 
-print(round(answer, 2))
+print("%.2f" % ans)

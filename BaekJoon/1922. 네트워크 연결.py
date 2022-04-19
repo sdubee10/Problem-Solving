@@ -1,63 +1,38 @@
-# import sys
-# input=sys.stdin.readline
-#
-# def find(x):
-#    if x==parent[x]:
-#       return x
-#    parent[x]=find(parent[x])
-#    return parent[x]
-#
-# def union(x,y):
-#    x,y=find(x),find(y)
-#    parent[x]=y
-#
-# n=int(input())
-# m=int(input())
-# arr=[list(map(int,input().split())) for _ in range(m)]
-# arr=sorted(arr,key=lambda k: k[2])
-# parent =[i for i in range(0,n+2)]
-#
-# ans=0
-# for a in arr:
-#    start,end,weight=a
-#    #cycle 확인
-#    if find(start)==find(end):
-#       continue
-#    else:
-#       ans+=weight
-#       union(start,end)
-# print(ans)
-
-
 import sys
 input = sys.stdin.readline
 
+def find(a):
+   if a == parent[a]:
+      return a
+   parent[a] = find(parent[a])
+   return parent[a]
+
+def union(a, b):
+   a = find(a)
+   b = find(b)
+
+   if a > b:
+      parent[a] = b
+   else:
+      parent[b] = a
+
 n = int(input())
 m = int(input())
-arr =[list(map(int, input().split())) for i in range(m)]
 
-arr = sorted(arr, key=lambda x:x[2])
-
-parent = [i for i in range(n+2)]
-
-def find(x):
-   if x == parent[x]:
-      return x
-   parent[x] = find(parent[x])
-   return parent[x]
-
-def union(x, y):
-   fx = find(x)
-   fy = find(y)
-   if fx != fy:
-      parent[fx] = fy
-
+edge = []
+parent = [i for i in range(n+1)]
 ans = 0
-for a in arr:
-   start, end, weight = a
-   if find(start) == find(end):
-      continue
-   else:
-      ans += weight
-      union(start, end)
+
+for _ in range(m):
+   x, y, z = map(int, input().split())
+   edge.append((x, y, z))
+
+edge.sort(key = lambda x:x[2])
+
+for i in edge:
+   x, y, z = i
+   if find(x) != find(y):
+      union(x, y)
+      ans += z
+
 print(ans)
