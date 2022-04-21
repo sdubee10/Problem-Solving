@@ -1,22 +1,19 @@
 def solution(numbers, target):
     n = len(numbers)
 
-    global count
-    count = 0
+    global answer
+    answer = 0
 
+    def DFS(L, total):
+        global answer
 
-    def DFS(L, value):
-        global count
         if L == n:
-            if value == target:
-                count += 1
-            return
+            if total == target:
+                answer += 1
         else:
-            DFS(L + 1, value + numbers[L])
-            DFS(L + 1, value - numbers[L])
+            DFS(L + 1, total + numbers[L])
+            DFS(L + 1, total - numbers[L])
 
     DFS(0, 0)
-    return count
-
-print(solution([1, 1, 1, 1, 1], 3))
+    return answer
 
