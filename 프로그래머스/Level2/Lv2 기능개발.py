@@ -1,31 +1,23 @@
 def solution(progresses, speeds):
-    answer = []
-    result = []
-    n = len(progresses)
-    for i in range(n):
-        check = progresses[i]
+    days = []
+    for i in range(len(speeds)):
         count = 0
-        while(check < 100):
-            check += speeds[i]
+        while (progresses[i] < 100):
+            progresses[i] = progresses[i] + speeds[i]
             count += 1
-        result.append(count)
+        days.append(count)
 
-    j = 0
-    size = len(result)
-    temp = result[0]
+    idx = 0
+    tmp = days[0]
+    answer = []
     count = 0
-    while(j < size):
-        if temp >= result[j]:
+    while (idx < len(days)):
+        if tmp >= days[idx]:
             count += 1
         else:
-            temp = result[j]
+            tmp = days[idx]
             answer.append(count)
             count = 1
-        j += 1
-        if j == size:
-            answer.append(count)
+        idx += 1
+    answer.append(count)
     return answer
-
-print(solution([93, 30, 55], [1, 30, 5]))
-print("----------------------------------")
-print(solution([95, 90, 99, 99, 80, 99], [1, 1, 1, 1, 1, 1]))
